@@ -182,4 +182,29 @@ class Discussion extends Model
             });
         });
     }
+
+    public function latestPost()
+    {
+        return $this->belongsTo(Post::class);
+    }
+
+    public function scopeWithLatestPost($query)
+    {
+        $query->addSelect(['latest_post_id' => Post::select('id')
+            ->whereNull('deleted_at')
+            ->whereColumn('discussion_id', 'discussions.id')
+            ->latest()
+            ->take(1),
+        ])->with('latestPost');
+    }
+
+    public function scopeWithLatestPostDate($query)
+    {
+        $query->addSelect(['latest_post_date' => Post::select('created_at')
+            ->whereNull('deleted_at')
+            ->whereColumn('discussion_id', 'discussions.id')
+            ->latest()
+            ->take(1),
+        ]);
+    }
 }

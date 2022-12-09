@@ -84,6 +84,7 @@
                         }
 
                         document.getElementById('content').value = content;
+                        document.getElementById('content').scrollIntoView();
 
                         return
                     }
@@ -91,6 +92,8 @@
                     if (this.rich) {
                         html = '<blockquote>'+this.posts[postId].content+'</blockquote><br>';
                         editor.clipboard.dangerouslyPasteHTML(0, html);
+
+                        document.getElementById('content').scrollIntoView();
                     }
                 }
             }
