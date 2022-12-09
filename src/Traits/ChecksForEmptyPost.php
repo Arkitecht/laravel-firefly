@@ -6,9 +6,8 @@ use Firefly\Features;
 
 trait ChecksForEmptyPost
 {
-
     /**
-     * Prepare the data for validation. Check for empty HTML post
+     * Prepare the data for validation. Check for empty HTML post.
      *
      * @return void
      */
