@@ -22,21 +22,34 @@ trait SanitizesPosts
                 $requestData['content'] = preg_replace('/<\\/?'.$tag.'(.|\\s)*?>/i', '', $requestData['content']);
             }
 
-            $prevUseErrors = libxml_use_internal_errors(true);
-            $dom = new \DOMDocument();
-            $requestData['content'] = mb_convert_encoding($requestData['content'], 'HTML-ENTITIES', 'UTF-8');
-            $dom->loadHTML('<root>'.$requestData['content'].'</root>', LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
-            $xpath = new \DOMXPath($dom);
-            $selfClosingElements = ['area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input', 'link', 'meta', 'param', 'source', 'track', 'wbr'];
-            foreach ($xpath->query('//*[not(node())]') as $node) {
-                if (! in_array($node->localName, $selfClosingElements)) {
-                    $node->parentNode->removeChild($node);
-                }
-            }
-            $requestData['content'] = substr($dom->saveHTML(), 6, -8);
-            libxml_use_internal_errors($prevUseErrors);
+            $requestData['content'] = $this->validateAndSanitizeHtml($requestData['content']);
         }
 
         return $requestData;
+    }
+
+    protected function validateAndSanitizeHtml($content)
+    {
+        $prevUseErrors = libxml_use_internal_errors(true);
+        $content = mb_convert_encoding($content, 'HTML-ENTITIES', 'UTF-8');
+
+        //Set up self closing elements array
+        $selfClosingElements = ['area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input', 'link', 'meta', 'param', 'source', 'track', 'wbr'];
+
+        //Set up a dom parser with the content
+        $dom = new \DOMDocument();
+        $dom->loadHTML('<root>'.$content.'</root>', LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+        $xpath = new \DOMXPath($dom);
+
+        //Remove any unclosed elements (ignoring self-closing ones)
+        foreach ($xpath->query('//*[not(node())]') as $node) {
+            if (! in_array($node->localName, $selfClosingElements)) {
+                $node->parentNode->removeChild($node);
+            }
+        }
+
+        libxml_use_internal_errors($prevUseErrors);
+
+        return $content;
     }
 }

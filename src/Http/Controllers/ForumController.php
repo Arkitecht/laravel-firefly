@@ -21,7 +21,9 @@ class ForumController extends Controller
             ->withIsBeingWatched($request->user())
             ->withIsAnswered()
             ->withSearch($request->get('search'))
-            ->orderBy('created_at', 'desc')
+            ->withLatestPostDate()
+            ->orderBy('latest_post_date', 'desc')
+            ->orderBy('discussions.created_at', 'desc')
             ->paginate(config('firefly.pagination.discussions'));
 
         return view('firefly::index')

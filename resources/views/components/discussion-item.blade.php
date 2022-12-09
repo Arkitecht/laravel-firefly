@@ -7,7 +7,8 @@
                 <h3 class="text-lg leading-6 font-medium text-gray-900">{{ $discussion->title }}</h3>
 
                 <div class="mt-2 text-sm text-gray-500">
-                    {{ __('Posted by') }} {{ $discussion->user->name }} &#8226; {{ $discussion->created_at->diffForHumans() }}
+                    {{ __('Created by') }} {{ $discussion->user->name }} {{ $discussion->created_at->diffForHumans() }} &#8226;
+                    {{ __('Last post') }} {{ \Carbon\Carbon::create($discussion->latest_post_date)->diffForHumans() }}
                 </div>
             </div>
 

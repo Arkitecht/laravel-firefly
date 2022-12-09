@@ -10,7 +10,9 @@
             @can ('reply', $post->discussion)
             <button @click="quote({{$post->id}})" data-tippy-content="{{ __('Quote') }}">
                 <span class="sr-only">{{ __('Quote') }}</span>
-                <svg viewBox="0 0 16 16" class="w-5 h-5 text-gray-700 hover:text-gray-500"><rect class="ql-fill ql-stroke" height="3" width="3" x="4" y="5"></rect> <rect class="ql-fill ql-stroke" height="3" width="3" x="11" y="5"></rect> <path class="ql-even ql-fill ql-stroke" d="M7,8c0,4.031-3,5-3,5"></path> <path class="ql-even ql-fill ql-stroke" d="M14,8c0,4.031-3,5-3,5"></path> </svg>
+                <svg class="w-5 h-5 text-gray-700 hover:text-gray-500" data-tippy-content="{{ __('Quote') }}" xmlns="http://www.w3.org/2000/svg" viewBox="3 4 19 16" fill="currentColor" aria-hidden="true">
+                    <path d="M19.417 6.679C20.447 7.773 21 9 21 10.989c0 3.5-2.457 6.637-6.03 8.188l-.893-1.378c3.335-1.804 3.987-4.145 4.247-5.621-.537.278-1.24.375-1.929.311-1.804-.167-3.226-1.648-3.226-3.489a3.5 3.5 0 0 1 3.5-3.5c1.073 0 2.099.49 2.748 1.179zm-10 0C10.447 7.773 11 9 11 10.989c0 3.5-2.457 6.637-6.03 8.188l-.893-1.378c3.335-1.804 3.987-4.145 4.247-5.621-.537.278-1.24.375-1.929.311C4.591 12.322 3.17 10.841 3.17 9a3.5 3.5 0 0 1 3.5-3.5c1.073 0 2.099.49 2.748 1.179z"></path>
+                </svg>
             </button>
             @endcan
 

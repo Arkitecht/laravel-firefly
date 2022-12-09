@@ -79,7 +79,9 @@ class GroupController extends Controller
         $discussions = $group->discussions()
             ->withIsBeingWatched($request->user())
             ->withSearch($request->get('search'))
+            ->withLatestPostDate()
             ->orderBy('pinned_at', 'desc')
+            ->orderBy('latest_post_date', 'desc')
             ->orderBy('created_at', 'desc')
             ->paginate(config('firefly.pagination.discussions'));
 
