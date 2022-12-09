@@ -2,10 +2,13 @@
 
 namespace Firefly\Http\Requests;
 
+use Firefly\Traits\ChecksForEmptyPost;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StorePostRequest extends FormRequest
 {
+    use ChecksForEmptyPost;
+
     /**
      * Determine if the user is authorized to make this request.
      *
