@@ -3,6 +3,8 @@
 namespace Firefly\Services;
 
 use BadMethodCallException;
+use Firefly\Events\DiscussionUnwatched;
+use Firefly\Events\DiscussionWatched;
 use Firefly\Features;
 use Firefly\Models\Discussion;
 use Firefly\Models\Group;
@@ -101,6 +103,8 @@ class DiscussionService
      */
     public function watch(Discussion $discussion, User $user)
     {
+        event(new DiscussionWatched($discussion, $user));
+
         return $discussion->watchers()->syncWithoutDetaching([$user->id]);
     }
 
@@ -115,6 +119,8 @@ class DiscussionService
      */
     public function unwatch(Discussion $discussion, User $user)
     {
+        event(new DiscussionUnwatched($discussion, $user));
+
         return $discussion->watchers()->detach($user->id);
     }
 }
