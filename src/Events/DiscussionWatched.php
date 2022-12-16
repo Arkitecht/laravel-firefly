@@ -35,5 +35,6 @@ class DiscussionWatched
     public function __construct(Discussion $discussion, $user)
     {
         $this->discussion = $discussion;
+        $this->user = $user;
     }
 }
