@@ -11,14 +11,14 @@ class DiscussionWatched
     use Dispatchable, SerializesModels;
 
     /**
-     * Discussion being watched
+     * Discussion being watched.
      *
      * @var Discussion
      */
     public $discussion;
 
     /**
-     * User associated
+     * User associated.
      *
      * @var User
      */
@@ -27,9 +27,8 @@ class DiscussionWatched
     /**
      * Create a new event instance.
      *
-     * @param Discussion $discussion
-     * @param User       $user
-     *
+     * @param  Discussion  $discussion
+     * @param  User  $user
      * @return void
      */
     public function __construct(Discussion $discussion, $user)
