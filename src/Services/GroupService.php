@@ -17,7 +17,7 @@ class GroupService
     {
         $request->merge(['is_private' => $request->has('is_private')]);
 
-        return Group::create($request->all());
+        return Group::create($request->except('_token'));
     }
 
     /**

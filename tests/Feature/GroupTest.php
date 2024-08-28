@@ -17,7 +17,7 @@ class GroupTest extends TestCase
 
         $response = $this->actingAs($this->getUser())
             ->postJson('forum/g', [
-                'name' => 'Foo Bar',
+                'name'  => 'Foo Bar',
                 'color' => '#444',
             ]);
 
@@ -32,7 +32,7 @@ class GroupTest extends TestCase
         $group = Group::first();
 
         $response->assertRedirect();
-        $response->assertLocation('forum/g/'.$group->slug);
+        $response->assertLocation('forum/g/' . $group->slug);
     }
 
     public function test_group_was_updated()
@@ -40,8 +40,8 @@ class GroupTest extends TestCase
         $group = $this->getGroup();
 
         $response = $this->actingAs($this->getUser())
-            ->put('forum/g/'.$group->slug, [
-                'name' => 'Bar Foo',
+            ->put('forum/g/' . $group->slug, [
+                'name'  => 'Bar Foo',
                 'color' => '#444',
             ]);
 
@@ -51,7 +51,7 @@ class GroupTest extends TestCase
         $this->assertEquals('bar-foo', $group->slug);
 
         $response->assertRedirect();
-        $response->assertLocation('forum/g/'.$group->slug);
+        $response->assertLocation('forum/g/' . $group->slug);
     }
 
     public function test_group_was_soft_deleted()
@@ -59,7 +59,7 @@ class GroupTest extends TestCase
         $group = $this->getGroup();
 
         $response = $this->actingAs($this->getUser())
-            ->delete('forum/g/'.$group->slug);
+            ->delete('forum/g/' . $group->slug);
 
         $group->refresh();
 
@@ -95,7 +95,7 @@ class GroupTest extends TestCase
         $group = $this->getGroup();
 
         $response = $this->actingAs($this->getUser())
-            ->putJson('forum/g/'.$group->slug, [
+            ->putJson('forum/g/' . $group->slug, [
                 'name' => $name,
             ]);
 
@@ -108,12 +108,11 @@ class GroupTest extends TestCase
     {
         $name = Str::random(256);
         $validJson = [
-            'errors' => [
-                'name' => [
-                    'The name must not be greater than 255 characters.',
-                ],
+            'name' => [
+                'The name field must not be greater than 255 characters.',
             ],
         ];
+        $this->assertTrue((strlen($name) > 255));
 
         // Create
         $response = $this->actingAs($this->getUser())
@@ -123,19 +122,19 @@ class GroupTest extends TestCase
 
         $response->assertStatus(422);
         $response->assertJsonValidationErrors('name');
-        $response->assertJson($validJson);
+        $response->assertJsonFragment($validJson);
 
         // Update
         $group = $this->getGroup();
 
         $response = $this->actingAs($this->getUser())
-            ->putJson('forum/g/'.$group->slug, [
+            ->putJson('forum/g/' . $group->slug, [
                 'name' => $name,
             ]);
 
         $response->assertStatus(422);
         $response->assertJsonValidationErrors('name');
-        $response->assertJson($validJson);
+        $response->assertJsonFragment($validJson);
     }
 
     public function test_can_get_discussion_list_with_search()
@@ -148,8 +147,8 @@ class GroupTest extends TestCase
         $group = $this->getGroup();
 
         $discussion = Discussion::create([
-            'user_id'  => $this->getUser()->id,
-            'title'    => 'I want to search for content',
+            'user_id' => $this->getUser()->id,
+            'title'   => 'I want to search for content',
         ]);
 
         $group->discussions()->save($discussion);
@@ -161,8 +160,8 @@ class GroupTest extends TestCase
         ]);
 
         $discussionTwo = Discussion::create([
-            'user_id'  => $this->getUser()->id,
-            'title'    => 'I do not like finding content',
+            'user_id' => $this->getUser()->id,
+            'title'   => 'I do not like finding content',
         ]);
 
         $group->discussions()->save($discussionTwo);
@@ -174,8 +173,8 @@ class GroupTest extends TestCase
         ]);
 
         $discussionThree = Discussion::create([
-            'user_id'  => $this->getUser()->id,
-            'title'    => 'I like finding content in posts',
+            'user_id' => $this->getUser()->id,
+            'title'   => 'I like finding content in posts',
         ]);
 
         $group->discussions()->save($discussionThree);
@@ -190,7 +189,7 @@ class GroupTest extends TestCase
         $this->assertEquals(3, $this->getGroup()->discussions->count());
 
         $response = $this->actingAs($this->getUser())
-            ->get('forum/g/'.$group->slug.'?search=search');
+            ->get('forum/g/' . $group->slug . '?search=search');
 
         $discussions = $response->viewData('discussions');
 

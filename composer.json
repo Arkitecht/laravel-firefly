@@ -27,7 +27,7 @@
         "spatie/laravel-sluggable": "^2.6|^3.4"
     },
     "require-dev": {
-        "orchestra/testbench": "^v8.26.0",
+        "orchestra/testbench": "^v9",
         "mockery/mockery": "^1.4"
     },
     "autoload": {

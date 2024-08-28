@@ -25,7 +25,7 @@ class PostService
     {
         $user = $request->user();
 
-        $post = $user->posts()->make($this->getSanitizedPostData($request->all()));
+        $post = $user->posts()->make($this->getSanitizedPostData($request->except('_token')));
 
         $discussion->posts()->save($post);
 
